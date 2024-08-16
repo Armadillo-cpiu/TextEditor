@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Content</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>File Content</h2>
+  <div id="fileContentInner"></div>
+  <button id="viewAsHtmlButton" onclick="viewAsHtml()">View as HTML</button>
+  <button class="back-button" onclick="window.location.href='fileman.html'">Back to File Manager</button>
+  <script>
+    // Get filename from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const filename = urlParams.get("filename");
+
+    // Load file content from localStorage and display it as innerText
+    const fileContent = localStorage.getItem(`textEditorFiles/${filename}`);
+    if (fileContent) {
+      document.getElementById("fileContentInner").innerText = fileContent;
+    } else {
+      document.getElementById("fileContentInner").innerText = "File not found.";
+    }
+
+    function viewAsHtml() {
+      // Parse the HTML content
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(fileContent, 'text/html');
+
+      // Get the body of the parsed HTML
+      const body = doc.body;
+
+      // Replace the content of fileContentInner with the parsed HTML
+      document.getElementById("fileContentInner").innerHTML = '';
+      document.getElementById("fileContentInner").appendChild(body);
+
+      // Execute any scripts within the parsed HTML
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        newScript.innerHTML = script.innerHTML;
+        document.body.appendChild(newScript);
+      });
+    }
+  </script>
+</body>
+</html>
