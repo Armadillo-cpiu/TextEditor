@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Text Editor</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <script src="script.js"></script>
+  <h1>Text Editor</h1>
+  <div class="button-container">
+    <button class="editor-button" onclick="save()">Save</button>
+    <button class="editor-button" onclick="load()">Load</button>
+    <button class="editor-button" onclick="view()">View saved content</button>
+    <button class="editor-button" onclick="deleteFile()">Delete</button>
+    <button class="editor-button" onclick="download()">Download</button>
+    <button class="editor-button" onclick="openFromComputer()">Open from Computer</button>
+    <button class="editor-button" onclick="window.location.href='fileman.html'">File Manager</button>
+  </div>
+  <textarea id="text" placeholder="Type here..."></textarea>
+  <br>
+  <input type="text" id="searchInput" placeholder="Find">
+  <button onclick="find()">Find</button>
+  <input type="text" id="replaceInput" placeholder="Replace">
+  <button onclick="replace()">Replace</button>
+  <button onclick="replaceAll()">Replace All</button>
+  <h4>Credits to Replit AI</h4>
+  <script>
+    // Get filename from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const filename = urlParams.get("filename");
+
+    // If filename is provided, load the file content
+    if (filename) {
+      const fileContent = localStorage.getItem(`textEditorFiles/${filename}`);
+      if (fileContent) {
+        document.getElementById("text").value = fileContent;
+      } else {
+        alert(`File "${filename}" not found.`);
+      }
+    }
+  </script>
+</body>
+
+</html>
