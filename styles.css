@@ -1,0 +1,72 @@
+body {
+  font-family: sans-serif;
+  margin: 20px;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px; /* Add some spacing between buttons */
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+
+.back-button {
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.file-icon { /* Style for file icons */
+  margin-right: 5px;
+}
+
+.txt-icon { /* Icon for plain text files */
+  color: #000;
+}
+
+.html-icon { /* Icon for HTML files */
+  color: #E34F26; /* Orange */
+}
+
+.js-icon { /* Icon for JavaScript files */
+  color: #f0db4f; /* Yellow */
+}
+
+.css-icon { /* Icon for CSS files */
+  color: #007bff; /* Blue */
+}
+
+.unknown-icon { /* Icon for unknown file types */
+  color: #808080; /* Gray */
+}
