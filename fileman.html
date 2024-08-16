@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="back-button" onclick="window.location.href='index.html'">Back to Text Editor</button>
+  <h2>Saved Files</h2>
+  <table id="fileTable">
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      </tbody>
+  </table>
+  <script>
+    // Function to refresh the file list
+    function refreshFileList() {
+      const fileTable = document.getElementById("fileTable").getElementsByTagName("tbody")[0];
+      // Clear existing rows
+      fileTable.innerHTML = ''; 
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("textEditorFiles/")) {
+          const filename = key.substring(16);
+          const row = fileTable.insertRow();
+          const filenameCell = row.insertCell();
+
+          // Add icon based on file extension
+          let icon = '';
+          if (filename.endsWith('.txt')) {
+            icon = '<i class="file-icon txt-icon">&#128190;</i>'; // Plain text icon
+          } else if (filename.endsWith('.html')) {
+            icon = '<i class="file-icon html-icon">&#128200;</i>'; // HTML icon
+          } else if (filename.endsWith('.js')) {
+            icon = '<i class="file-icon js-icon">&#128201;</i>'; // JavaScript icon
+          } else if (filename.endsWith('.css')) {
+            icon = '<i class="file-icon css-icon">&#128202;</i>'; // CSS icon
+          } else {
+            icon = '<i class="file-icon unknown-icon">&#128309;</i>'; // Question mark icon
+          }
+          filenameCell.innerHTML = icon + filename; 
+
+          const actionCell = row.insertCell();
+
+          // Create View button
+          const viewButton = document.createElement("button");
+          viewButton.className = "button";
+          viewButton.innerHTML = "View";
+          viewButton.onclick = function() {
+            window.location.href = `view.html?filename=${filename}`; // Redirect to view.html with filename
+          };
+          actionCell.appendChild(viewButton);
+
+          // Create Delete button
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "button";
+          deleteButton.innerHTML = "Delete";
+          deleteButton.onclick = function() {
+            if (confirm(`Are you sure you want to delete "${filename}"?`)) {
+              localStorage.removeItem(`textEditorFiles/${filename}`);
+              // Remove the row from the table
+              row.remove(); 
+            }
+          };
+          actionCell.appendChild(deleteButton);
+
+          // Create Edit button
+          const editButton = document.createElement("button");
+          editButton.className = "button";
+          editButton.innerHTML = "Edit";
+          editButton.onclick = function() {
+            if (localStorage.getItem(`textEditorFiles/${filename}`) !== null) {
+              window.location.href = `index.html?filename=${filename}`; // Redirect to index.html with filename
+            } else {
+              alert(`File "${filename}" not found.`);
+            }
+          };
+          actionCell.appendChild(editButton);
+
+        }
+      }
+    }
+
+    // Call refreshFileList() on page load
+    window.onload = refreshFileList;
+  </script>
+</body>
+</html>
